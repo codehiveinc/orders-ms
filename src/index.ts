@@ -1,12 +1,36 @@
-import express, { Request, Response } from 'express';
+import "reflect-metadata";
+import "./env";
+import express, { Request, Response } from "express";
+import morganMiddleware from "./shared/infrastructure/middlewares/morgan.middleware";
+import camelCaseMiddleware from "./shared/infrastructure/middlewares/camel-case.middleware";
+import snakeCaseMiddleware from "./shared/infrastructure/middlewares/snake-case.middleware";
+import { container } from "tsyringe";
+import MessageBrokerRepository from "./shared/infrastructure/adapters/repositories/message-broker.repository";
+import OrderRepository from "./orders/infrastructure/adapters/repositories/order.repository";
+import OrderRouter from "./orders/infrastructure/routers/order.router";
 
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT;
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Hello, World!');
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(morganMiddleware);
+
+app.use(camelCaseMiddleware);
+app.use(snakeCaseMiddleware);
+
+container.register("OrderRepository", OrderRepository);
+container.register("MessageBrokerRepository", MessageBrokerRepository);
+
+const orderRouter = container.resolve(OrderRouter);
+
+app.use("/api/v1/orders", orderRouter.getRouter());
+
+
+app.get("/api/health", (req: Request, res: Response) => {
+  res.status(200).json({ message: "Everything is working!" });
 });
 
-app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
