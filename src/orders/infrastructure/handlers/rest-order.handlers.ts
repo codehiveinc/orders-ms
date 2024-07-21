@@ -12,7 +12,7 @@ import ResourceNotFoundError from "../../../shared/application/errors/resource-n
 import GetMyCurrentOrderUseCase from "../../application/use-cases/get-my-current-order.use-case";
 
 @injectable()
-class OrderHandlers {
+class RestOrderHandlers {
   constructor(
     private readonly createOrderUseCase: CreateOrderUseCase,
     private readonly updateOrderStatusUseCase: UpdateOrderStatusUseCase,
@@ -109,4 +109,4 @@ class OrderHandlers {
   }
 }
 
-export default OrderHandlers;
+export default RestOrderHandlers;

@@ -1,5 +1,5 @@
 import { autoInjectable } from "tsyringe";
-import OrderHandlers from "../handlers/order.handlers";
+import RestOrderHandlers from "../handlers/rest-order.handlers";
 import { Router } from "express";
 import validateResource from "../../../shared/infrastructure/middlewares/validate-resource.middleware";
 import { CreateOrderSchema, GetMyCurrentOrderSchema, UpdateOrderStatusSchema } from "../schemas/order.schemas";
@@ -7,15 +7,15 @@ import { CreateOrderSchema, GetMyCurrentOrderSchema, UpdateOrderStatusSchema } f
 @autoInjectable()
 class OrderRouter {
   private router: Router;
-  constructor(private readonly orderHandlers: OrderHandlers) {
+  constructor(private readonly restOrderHandlers: RestOrderHandlers) {
     this.router = Router();
     this.initializeRoutes();
   }
 
   private initializeRoutes() {
-    this.router.post("/", validateResource(CreateOrderSchema), this.orderHandlers.createOrder);
-    this.router.put("/:uuid/status", validateResource(UpdateOrderStatusSchema), this.orderHandlers.updateOrderStatus);
-    this.router.get("/my/current", validateResource(GetMyCurrentOrderSchema), this.orderHandlers.getMyCurrentOrder);
+    this.router.post("/", validateResource(CreateOrderSchema), this.restOrderHandlers.createOrder);
+    this.router.put("/:uuid/status", validateResource(UpdateOrderStatusSchema), this.restOrderHandlers.updateOrderStatus);
+    this.router.get("/my/current", validateResource(GetMyCurrentOrderSchema), this.restOrderHandlers.getMyCurrentOrder);
   }
 
   public getRouter() {

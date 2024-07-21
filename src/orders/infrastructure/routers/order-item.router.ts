@@ -12,7 +12,7 @@ import {
 class OrderItemRouter {
   private router: Router;
 
-  constructor(private readonly orderItemHandlers: RestOrderItemHandlers) {
+  constructor(private readonly restOrderItemHandlers: RestOrderItemHandlers) {
     this.router = Router();
     this.initiateRoutes();
   }
@@ -21,17 +21,17 @@ class OrderItemRouter {
     this.router.post(
       "/",
       validateResource(CreateOrderItemSchema),
-      this.orderItemHandlers.createOrderItem
+      this.restOrderItemHandlers.createOrderItem
     );
     this.router.put(
       "/:uuid",
       validateResource(UpdateOrderItemQuantitySchema),
-      this.orderItemHandlers.updateOrderItemQuantity
+      this.restOrderItemHandlers.updateOrderItemQuantity
     );
     this.router.delete(
       "/:uuid",
       validateResource(DeleteOrderItemSchema),
-      this.orderItemHandlers.deleteOrderItem
+      this.restOrderItemHandlers.deleteOrderItem
     );
   }
 
