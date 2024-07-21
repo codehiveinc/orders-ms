@@ -8,6 +8,8 @@ import { container } from "tsyringe";
 import MessageBrokerRepository from "./shared/infrastructure/adapters/repositories/message-broker.repository";
 import OrderRepository from "./orders/infrastructure/adapters/repositories/order.repository";
 import OrderRouter from "./orders/infrastructure/routers/order.router";
+import OrderItemRepository from "./orders/infrastructure/adapters/repositories/order-item.repository";
+import OrderItemRouter from "./orders/infrastructure/routers/order-item.router";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -20,11 +22,14 @@ app.use(camelCaseMiddleware);
 app.use(snakeCaseMiddleware);
 
 container.register("OrderRepository", OrderRepository);
+container.register("OrderItemRepository", OrderItemRepository);
 container.register("MessageBrokerRepository", MessageBrokerRepository);
 
 const orderRouter = container.resolve(OrderRouter);
+const orderItemRouter = container.resolve(OrderItemRouter);
 
 app.use("/api/v1/orders", orderRouter.getRouter());
+app.use("/api/v1/order-items", orderItemRouter.getRouter());
 
 
 app.get("/api/health", (req: Request, res: Response) => {
