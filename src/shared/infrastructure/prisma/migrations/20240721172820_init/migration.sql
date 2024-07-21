@@ -4,6 +4,7 @@ CREATE TABLE `order_items` (
     `uuid` VARCHAR(191) NOT NULL,
     `quantity` INTEGER NOT NULL,
     `meal_uuid` VARCHAR(191) NOT NULL,
+    `meal_price` DOUBLE NOT NULL,
     `order_id` INTEGER NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL,
@@ -19,6 +20,7 @@ CREATE TABLE `orders` (
     `status` ENUM('delivered', 'preparing', 'pending', 'canceled') NOT NULL,
     `user_uuid` VARCHAR(191) NOT NULL,
     `billing_uuid` VARCHAR(191) NULL,
+    `amount` DOUBLE NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL,
 

@@ -8,6 +8,7 @@ class OrderModel {
   status: StatusEnum;
   userUuid: string;
   billingUuid: string | null;
+  totalAmount: number;
   createdAt: Date;
   updatedAt: Date;
 
@@ -18,6 +19,7 @@ class OrderModel {
     status: StatusEnum,
     userUuid: string,
     billingUuid: string | null,
+    totalAmount: number,
     createdAt: Date,
     updatedAt: Date
   ) {
@@ -27,6 +29,7 @@ class OrderModel {
     this.status = status;
     this.userUuid = userUuid;
     this.billingUuid = billingUuid;
+    this.totalAmount = totalAmount;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }

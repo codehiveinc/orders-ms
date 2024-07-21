@@ -9,6 +9,10 @@ export const CreateOrderItemSchema = z.object({
     mealUuid: z
       .string({ required_error: "meal_uuid is required" })
       .uuid({ message: "meal_uuid must be a valid UUID" }),
+    mealPrice: z
+      .number({ required_error: "meal_price is required" })
+      .int({ message: "meal_price must be an integer" })
+      .positive({ message: "meal_price must be a positive number" }),
     quantity: z
       .number({ required_error: "quantity is required" })
       .int({ message: "quantity must be an integer" })

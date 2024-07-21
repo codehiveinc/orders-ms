@@ -9,14 +9,14 @@ import {
 import createBaseResponse from "../../../shared/infrastructure/utils/createBaseResponse";
 import UpdateOrderStatusUseCase from "../../application/use-cases/update-order-status.use-case";
 import ResourceNotFoundError from "../../../shared/application/errors/resource-not-found.error";
-import GetMyCurrentOrderUseCase from "../../application/use-cases/get-my-current-order.use-case";
+import GetMyCurrentOrderByUserUuidUseCase from "../../application/use-cases/get-my-current-order-by-user-uuid.use-case";
 
 @injectable()
 class RestOrderHandlers {
   constructor(
     private readonly createOrderUseCase: CreateOrderUseCase,
     private readonly updateOrderStatusUseCase: UpdateOrderStatusUseCase,
-    private readonly getMyCurrentOrderUseCase: GetMyCurrentOrderUseCase
+    private readonly getMyCurrentOrderUseCase: GetMyCurrentOrderByUserUuidUseCase
   ) {
     this.createOrder = this.createOrder.bind(this);
     this.updateOrderStatus = this.updateOrderStatus.bind(this);

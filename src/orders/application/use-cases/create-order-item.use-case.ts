@@ -13,12 +13,14 @@ class CreateOrderItemUseCase {
   async execute(
     orderId: number,
     mealUuid: string,
+    mealPrice: number,
     quantity: number
   ): Promise<OrderItemModel> {
     const orderItem = new OrderItemModel(
       0,
       uuidV4(),
       mealUuid,
+      mealPrice,
       orderId,
       quantity
     );

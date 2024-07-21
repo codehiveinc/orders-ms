@@ -11,6 +11,7 @@ class OrderItemRepository implements IOrderItemRepository {
         uuid: orderItemModel.uuid,
         quantity: orderItemModel.quantity,
         mealUuid: orderItemModel.mealUuid,
+        mealPrice: orderItemModel.mealPrice,
         order: {
           connect: {
             id: orderItemModel.orderId,
@@ -23,6 +24,7 @@ class OrderItemRepository implements IOrderItemRepository {
       orderItemCreated.id,
       orderItemCreated.uuid,
       orderItemCreated.mealUuid,
+      orderItemCreated.mealPrice,
       orderItemCreated.orderId,
       orderItemCreated.quantity
     );
@@ -46,6 +48,7 @@ class OrderItemRepository implements IOrderItemRepository {
         orderItemUpdated.id,
         orderItemUpdated.uuid,
         orderItemUpdated.mealUuid,
+        orderItemUpdated.mealPrice,
         orderItemUpdated.orderId,
         orderItemUpdated.quantity
       );

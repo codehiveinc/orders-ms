@@ -13,6 +13,7 @@ class OrderRepository implements IOrderRepository {
         uuid: order.uuid,
         status: this.convertStatus(order.status),
         userUuid: order.userUuid,
+        totalAmount: order.totalAmount,
       },
     });
 
@@ -23,6 +24,7 @@ class OrderRepository implements IOrderRepository {
       this.convertStatusToEnum(orderCreated.status),
       orderCreated.userUuid,
       orderCreated.billingUuid,
+      orderCreated.totalAmount,
       orderCreated.createdAt,
       orderCreated.updatedAt
     );
@@ -49,6 +51,7 @@ class OrderRepository implements IOrderRepository {
         this.convertStatusToEnum(orderUpdated.status),
         orderUpdated.userUuid,
         orderUpdated.billingUuid,
+        orderUpdated.totalAmount,
         orderUpdated.createdAt,
         orderUpdated.updatedAt
       );
@@ -71,16 +74,84 @@ class OrderRepository implements IOrderRepository {
       return null;
     }
 
-    return new OrderModel(
-      order.id,
-      order.uuid,
-      [],
-      this.convertStatusToEnum(order.status),
-      order.userUuid,
-      order.billingUuid,
-      order.createdAt,
-      order.updatedAt
+    const orderItems = await prisma.orderItem.findMany({
+      where: {
+        orderId: order.id,
+      },
+    });
+
+    const totalAmount = orderItems.reduce(
+      (acc, orderItem) => acc + orderItem.quantity * orderItem.mealPrice,
+      0
     );
+
+    const orderUpdated = await prisma.order.update({
+      where: {
+        id: order.id,
+      },
+      data: {
+        totalAmount,
+      },
+    });
+
+    return new OrderModel(
+      orderUpdated.id,
+      orderUpdated.uuid,
+      [],
+      this.convertStatusToEnum(orderUpdated.status),
+      orderUpdated.userUuid,
+      orderUpdated.billingUuid,
+      orderUpdated.totalAmount,
+      orderUpdated.createdAt,
+      orderUpdated.updatedAt
+    );
+  }
+
+  async updateBillingUuid(uuid: string, billingUuid: string): Promise<OrderModel | null> {
+    try {
+      const order = await prisma.order.update({
+        where: {
+          uuid,
+        },
+        data: {
+          billingUuid,
+        },
+      });
+
+      const orderItems = await prisma.orderItem.findMany({
+        where: {
+          orderId: order.id,
+        },
+      });
+
+      const totalAmount = orderItems.reduce(
+        (acc, orderItem) => acc + orderItem.quantity * orderItem.mealPrice,
+        0
+      );
+
+      const orderUpdated = await prisma.order.update({
+        where: {
+          id: order.id,
+        },
+        data: {
+          totalAmount,
+        },
+      });
+
+      return new OrderModel(
+        orderUpdated.id,
+        orderUpdated.uuid,
+        [],
+        this.convertStatusToEnum(orderUpdated.status),
+        orderUpdated.userUuid,
+        orderUpdated.billingUuid,
+        orderUpdated.totalAmount,
+        orderUpdated.createdAt,
+        orderUpdated.updatedAt
+      );
+    } catch (error) {
+      return null;
+    }
   }
 
   private convertStatus(status: StatusEnum): Status {

@@ -27,12 +27,13 @@ class RestOrderItemHandlers {
     req: Request<unknown, unknown, CreateOrderItemBodyType>,
     res: Response
   ) {
-    const { orderId, mealUuid, quantity } = req.body;
+    const { orderId, mealUuid, mealPrice, quantity } = req.body;
 
     try {
       const orderItem = await this.createOrderItemUseCase.execute(
         orderId,
         mealUuid,
+        mealPrice,
         quantity
       );
 

@@ -12,6 +12,7 @@ model OrderItem {
   uuid      String   @unique
   quantity  Int
   mealUuid  String   @map("meal_uuid")
+  mealPrice Float    @map("meal_price")
   orderId   Int      @map("order_id")
   order     Order    @relation(fields: [orderId], references: [id])
   createdAt DateTime @default(now()) @map("created_at")
@@ -27,6 +28,7 @@ model Order {
   status      Status
   userUuid    String      @map("user_uuid")
   billingUuid String?     @map("billing_uuid")
+  totalAmount      Float @map("amount")
   createdAt   DateTime    @default(now()) @map("created_at")
   updatedAt   DateTime    @updatedAt @map("updated_at")
 

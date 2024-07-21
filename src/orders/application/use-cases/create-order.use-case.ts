@@ -12,6 +12,7 @@ class CreateOrderUseCase {
 
   async execute(userUuid: string): Promise<OrderModel> {
     const statusDefault = StatusEnum.pending;
+    const totalAmountInitial = 0;
 
     const order = new OrderModel(
       0,
@@ -20,6 +21,7 @@ class CreateOrderUseCase {
       statusDefault,
       userUuid,
       null,
+      totalAmountInitial,
       new Date(),
       new Date()
     );

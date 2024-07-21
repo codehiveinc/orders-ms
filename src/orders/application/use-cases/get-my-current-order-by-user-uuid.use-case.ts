@@ -4,7 +4,7 @@ import OrderModel from "../../domain/models/order.model";
 import CreateOrderUseCase from "./create-order.use-case";
 
 @injectable()
-class GetMyCurrentOrderUseCase {
+class GetMyCurrentOrderByUserUuidUseCase {
   constructor(
     @inject("OrderRepository")
     private readonly orderRepository: IOrderRepository,
@@ -24,4 +24,4 @@ class GetMyCurrentOrderUseCase {
   }
 }
 
-export default GetMyCurrentOrderUseCase;
+export default GetMyCurrentOrderByUserUuidUseCase;

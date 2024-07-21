@@ -10,6 +10,7 @@ import OrderRepository from "./orders/infrastructure/adapters/repositories/order
 import OrderRouter from "./orders/infrastructure/routers/order.router";
 import OrderItemRepository from "./orders/infrastructure/adapters/repositories/order-item.repository";
 import OrderItemRouter from "./orders/infrastructure/routers/order-item.router";
+import OrderEvents from "./orders/infrastructure/events/order.events";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -27,10 +28,12 @@ container.register("MessageBrokerRepository", MessageBrokerRepository);
 
 const orderRouter = container.resolve(OrderRouter);
 const orderItemRouter = container.resolve(OrderItemRouter);
+const orderEvents = container.resolve(OrderEvents);
 
 app.use("/api/v1/orders", orderRouter.getRouter());
 app.use("/api/v1/order-items", orderItemRouter.getRouter());
 
+orderEvents.initializeEvents();
 
 app.get("/api/health", (req: Request, res: Response) => {
   res.status(200).json({ message: "Everything is working!" });
