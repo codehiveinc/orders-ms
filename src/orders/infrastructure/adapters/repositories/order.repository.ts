@@ -4,6 +4,7 @@ import IOrderRepository from "../../../application/ports/repositories/order.repo
 import StatusEnum from "../../../domain/enums/status.enum";
 import OrderModel from "../../../domain/models/order.model";
 import { singleton } from "tsyringe";
+import OrderItemModel from "../../../domain/models/order-item.model";
 
 @singleton()
 class OrderRepository implements IOrderRepository {
@@ -94,10 +95,22 @@ class OrderRepository implements IOrderRepository {
       },
     });
 
+    const orderItemsModel = orderItems.map(
+      (orderItem) =>
+        new OrderItemModel(
+          orderItem.id,
+          orderItem.uuid,
+          orderItem.mealUuid,
+          orderItem.mealPrice,
+          orderItem.orderId,
+          orderItem.quantity
+        )
+    );
+
     return new OrderModel(
       orderUpdated.id,
       orderUpdated.uuid,
-      [],
+      orderItemsModel,
       this.convertStatusToEnum(orderUpdated.status),
       orderUpdated.userUuid,
       orderUpdated.billingUuid,
@@ -107,7 +120,10 @@ class OrderRepository implements IOrderRepository {
     );
   }
 
-  async updateBillingUuid(uuid: string, billingUuid: string): Promise<OrderModel | null> {
+  async updateBillingUuid(
+    uuid: string,
+    billingUuid: string
+  ): Promise<OrderModel | null> {
     try {
       const order = await prisma.order.update({
         where: {

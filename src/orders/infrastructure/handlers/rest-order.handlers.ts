@@ -3,6 +3,7 @@ import CreateOrderUseCase from "../../application/use-cases/create-order.use-cas
 import { Request, Response } from "express";
 import {
   CreateOrderBodyType,
+  GetMyCurrentOrderParamsType,
   UpdateOrderStatusBodyType,
   UpdateOrderStatusParamsType,
 } from "../schemas/order.schemas";
@@ -87,8 +88,11 @@ class RestOrderHandlers {
     }
   }
 
-  async getMyCurrentOrder(req: Request, res: Response) {
-    const { userUuid } = req.body;
+  async getMyCurrentOrder(
+    req: Request<GetMyCurrentOrderParamsType, unknown, unknown>,
+    res: Response
+  ) {
+    const { userUuid } = req.params;
 
     try {
       const order = await this.getMyCurrentOrderUseCase.execute(userUuid);

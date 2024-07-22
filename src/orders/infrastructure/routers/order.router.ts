@@ -15,7 +15,7 @@ class OrderRouter {
   private initializeRoutes() {
     this.router.post("/", validateResource(CreateOrderSchema), this.restOrderHandlers.createOrder);
     this.router.put("/:uuid/status", validateResource(UpdateOrderStatusSchema), this.restOrderHandlers.updateOrderStatus);
-    this.router.get("/my/current", validateResource(GetMyCurrentOrderSchema), this.restOrderHandlers.getMyCurrentOrder);
+    this.router.get("/my/current/:userUuid", validateResource(GetMyCurrentOrderSchema), this.restOrderHandlers.getMyCurrentOrder);
   }
 
   public getRouter() {

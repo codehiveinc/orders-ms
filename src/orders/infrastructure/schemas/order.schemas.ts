@@ -31,9 +31,9 @@ export type UpdateOrderStatusParamsType = z.infer<
 >["params"];
 
 export const GetMyCurrentOrderSchema = z.object({
-  body: z.object({
+  params: z.object({
     userUuid: z.string({ required_error: "Uuid is required" }).uuid("Invalid uuid"),
   }),
 });
 
-export type GetMyCurrentOrderBodyType = z.infer<typeof GetMyCurrentOrderSchema>["body"];
+export type GetMyCurrentOrderParamsType = z.infer<typeof GetMyCurrentOrderSchema>["params"];
