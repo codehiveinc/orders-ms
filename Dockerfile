@@ -11,11 +11,11 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-# Build the app
-RUN npm run build
-
 # prisma generate
 RUN npx prisma generate
+
+# Build the app
+RUN npm run build
 
 # Serve the app
 CMD ["npm", "start"]
